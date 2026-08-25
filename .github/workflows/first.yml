@@ -1,0 +1,22 @@
+# first test
+name: first
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  first-job:
+    name: First job
+    runs-on: ubuntu-latest
+    steps:
+      - name: First step
+        run: |
+          echo "First step of a first job @ ${{runner.name}} & ${{github.actor}}"
+          echo "Branching at ${{github.ref}}
+          echo "OS is ${{runner.os}}
+        shell: bash
+      - name: Second step - checkout
+        uses: actions/checkout@v6.1.0
+      - name: Third step - tree
+        run: tree
