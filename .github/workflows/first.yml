@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: First step
         run: |
+          echo Hello ${{vars.WHO_TO_GREET}}!
+          echo I have a secret now: \"${{secrets.MY_SECRET}}\"!
           echo "First step of a first job @ ${{runner.name}} & ${{github.actor}}"
           echo "Branching at ${{github.ref}}
           echo "OS is ${{runner.os}}
