@@ -12,13 +12,54 @@ jobs:
     steps:
       - name: First step
         run: |
-          echo Hello ${{vars.WHO_TO_GREET}}!
-          echo I have a secret now: \"${{secrets.MY_SECRET}}\"!
-          echo "First step of a first job @ ${{runner.name}} & ${{github.actor}}"
-          echo "Branching at ${{github.ref}}
-          echo "OS is ${{runner.os}}
+          echo Hello ${{ vars.WHO_TO_GREET }}!
+          echo I have a secret now: \"${{ secrets.MY_SECRET }}\"!
+          echo "First step of a first job @ ${{ runner.name }} & ${{ github.actor }}"
+          echo "Branching at ${{ github.ref }}
+          echo "OS is ${{ runner.os }}
         shell: bash
       - name: Second step - checkout
         uses: actions/checkout@v6.1.0
       - name: Third step - tree
         run: tree
+  second-job-test:
+    name: Second job (test)
+    runs-on: ubuntu-latest
+    environment: Test
+    needs: first-job
+    steps:
+      - name: Second job first step
+        run: |
+          echo Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here
+          sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g')
+          echo My secret is \"$sec\".
+        shell: bash
+  third-job-test:
+    name: Third job (test-load)
+    runs-on: ubuntu-latest
+    environment: Test-load
+    needs: first-job
+    steps:
+      - name: Third job first step
+        run: |
+          echo Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here
+          sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g')
+          echo My secret is \"$sec\".
+        shell: bash
+  fourth-job-test:
+    name: Fourth job (production)
+    runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://www.err.ee/
+    needs:
+      - second-job-test
+      - third-job-test
+    steps:
+      - name: Fourth job first step
+        run: |
+          echo Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here
+          sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g')
+          echo My secret is \"$sec\".
+        shell: bash
+    
