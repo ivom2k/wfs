@@ -12,11 +12,11 @@ jobs:
     steps:
       - name: First step
         run: |
-          echo Hello ${{ vars.WHO_TO_GREET }}!
-          echo I have a secret now: \"${{ secrets.MY_SECRET }}\"!
+          echo "Hello ${{ vars.WHO_TO_GREET }}!"
+          echo "I have a secret now: \"${{ secrets.MY_SECRET }}\""!
           echo "First step of a first job @ ${{ runner.name }} & ${{ github.actor }}"
-          echo "Branching at ${{ github.ref }}
-          echo "OS is ${{ runner.os }}
+          echo "Branching at ${{ github.ref }}"
+          echo "OS is ${{ runner.os }}"
         shell: bash
       - name: Second step - checkout
         uses: actions/checkout@v6.1.0
@@ -30,9 +30,9 @@ jobs:
     steps:
       - name: Second job first step
         run: |
-          echo Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here
+          echo "Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here"
           sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g')
-          echo My secret is \"$sec\".
+          echo "My secret is \"$sec\"".
         shell: bash
   third-job-test:
     name: Third job (test-load)
@@ -42,9 +42,9 @@ jobs:
     steps:
       - name: Third job first step
         run: |
-          echo Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here
+          echo "Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here"
           sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g')
-          echo My secret is \"$sec\".
+          echo "My secret is \"$sec\"".
         shell: bash
   fourth-job-test:
     name: Fourth job (production)
@@ -58,8 +58,7 @@ jobs:
     steps:
       - name: Fourth job first step
         run: |
-          echo Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here
+          echo "Hello to ${{ vars.WHO_TO_GREET }} from ${{ github.actor }} again here"
           sec=$(echo ${{ secrets.MY_SECRET }} | sed 's/./& /g')
-          echo My secret is \"$sec\".
+          echo "My secret is \"$sec\"."
         shell: bash
-    
